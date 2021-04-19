@@ -59,7 +59,7 @@
           v-for="post in posts"
           :key="post.slug" 
           :title="post.title"
-          :body="post.body"
+          :body="$md.render(post.body).replace(/(<([^>]+)>)/gi, '')"
           :tags="post.tags"
           :published_at="post.published_at"
           :slug="post.slug"
@@ -93,6 +93,7 @@ export default {
   methods: {
     async fetchPosts (query) {
       let data = await this.$axios.$get('http://localhost:1337/posts' + query);
+      console.log(query)
       this.posts = data;
     },
     async fetchTags () {
