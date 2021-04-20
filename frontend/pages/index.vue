@@ -11,7 +11,7 @@
           v-for="post in recent"
           :key="post.slug" 
           :title="post.title"
-          :body="post.body"
+          :body="$md.render(post.body).replace(/(<([^>]+)>)/gi, '')"
           :tags="post.tags"
           :published_at="post.published_at"
           :slug="post.slug"
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async fetchRecent () {
-      let data = await this.$axios.$get('http://localhost:1337/posts?_limit=3')
+      let data = await this.$axios.$get('http://localhost:1337/posts?_limit=3&_sort=published_at:DESC')
       console.log()
       this.recent = data;
     },
